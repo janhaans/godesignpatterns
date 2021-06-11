@@ -13,7 +13,7 @@ var data = []Car{
 	{LicensePlate: "76-wkl-6", CarBrand: BMW, Size: Large},
 }
 
-func TestFilterByGreen(t *testing.T) {
+func TestFilterByColor(t *testing.T) {
 	testData := []struct {
 		cars []Car
 		ColorSpecification
@@ -29,6 +29,27 @@ func TestFilterByGreen(t *testing.T) {
 		filteredCars := FilterBySpecification(test.cars, test.ColorSpecification)
 		if len(filteredCars) != test.want {
 			t.Errorf("FilterBySpecification got %d %v cars but expected %d %[2]v cars\n ", len(filteredCars), test.ColorSpecification.Color, test.want)
+			continue
+		}
+	}
+
+}
+
+func TestFilterBySize(t *testing.T) {
+	testData := []struct {
+		cars []Car
+		SizeSpecification
+		want int
+	}{
+		{data, SizeSpecification{Large}, 3},
+		{data, SizeSpecification{Medium}, 2},
+		{data, SizeSpecification{Small}, 1},
+	}
+
+	for _, test := range testData {
+		filteredCars := FilterBySpecification(test.cars, test.SizeSpecification)
+		if len(filteredCars) != test.want {
+			t.Errorf("FilterBySpecification got %d %v cars but expected %d %[2]v cars\n ", len(filteredCars), test.SizeSpecification.Size, test.want)
 			continue
 		}
 	}

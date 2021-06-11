@@ -2,7 +2,7 @@ package godesignpatterns
 
 type CarBrand string
 type Color string
-type Size int
+type Size string
 
 const (
 	Mercedes   CarBrand = "mercedes"
@@ -20,9 +20,9 @@ const (
 )
 
 const (
-	Small Size = iota
-	Medium
-	Large
+	Small  Size = "small"
+	Medium Size = "medium"
+	Large  Size = "large"
 )
 
 type Car struct {
