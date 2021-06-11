@@ -55,3 +55,23 @@ func TestFilterBySize(t *testing.T) {
 	}
 
 }
+
+func TestFilterByColorAndSize(t *testing.T) {
+	testData := []struct {
+		cars []Car
+		ColorAndSizeSpecification
+		want int
+	}{
+		{data, ColorAndSizeSpecification{Green, Large}, 1},
+		{data, ColorAndSizeSpecification{Red, Small}, 0},
+	}
+
+	for _, test := range testData {
+		filteredCars := FilterBySpecification(test.cars, test.ColorAndSizeSpecification)
+		if len(filteredCars) != test.want {
+			t.Errorf("FilterBySpecification got %d %s %s cars but expected %d %[2]s %[3]s cars\n ", len(filteredCars), test.ColorAndSizeSpecification.Size, test.ColorAndSizeSpecification.Color, test.want)
+			continue
+		}
+	}
+
+}

@@ -37,7 +37,7 @@ type Specification interface {
 }
 
 type ColorSpecification struct {
-	Color Color
+	Color
 }
 
 func (c ColorSpecification) IsSpecified(car *Car) bool {
@@ -54,6 +54,19 @@ type SizeSpecification struct {
 
 func (c SizeSpecification) IsSpecified(car *Car) bool {
 	if car.Size == c.Size {
+		return true
+	} else {
+		return false
+	}
+}
+
+type ColorAndSizeSpecification struct {
+	Color
+	Size
+}
+
+func (c ColorAndSizeSpecification) IsSpecified(car *Car) bool {
+	if c.Color == car.Color && c.Size == car.Size {
 		return true
 	} else {
 		return false
