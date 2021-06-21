@@ -1,4 +1,4 @@
-package solid
+package godesignpatterns
 
 import "fmt"
 

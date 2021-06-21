@@ -1,4 +1,4 @@
-package solid
+package godesignpatterns
 
 type CarBrand string
 type Color string
