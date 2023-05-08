@@ -23,22 +23,39 @@ type Product struct {
 	size  Size
 }
 
-type Filter struct{}
-
-func (f *Filter) FilterByColor(products []Product, color Color) []Product {
-	result := make([]Product, 0)
-	for _, v := range products {
-		if v.color == color {
-			result = append(result, v)
-		}
-	}
-	return result
+type Specification interface {
+	IsSpecified(p Product) bool
 }
 
-func (f *Filter) FilterBySize(products []Product, size Size) []Product {
+type ColorSpecification struct {
+	color Color
+}
+
+func (c ColorSpecification) IsSpecified(p Product) bool {
+	return p.color == c.color
+}
+
+type SizeSpecification struct {
+	size Size
+}
+
+func (s SizeSpecification) IsSpecified(p Product) bool {
+	return p.size == s.size
+}
+
+type AndSpecification struct {
+	first  Specification
+	second Specification
+}
+
+func (a AndSpecification) IsSpecified(p Product) bool {
+	return a.first.IsSpecified(p) && a.second.IsSpecified(p)
+}
+
+func FilterBySpecification(products []Product, spec Specification) []Product {
 	result := make([]Product, 0)
 	for _, v := range products {
-		if v.size == size {
+		if spec.IsSpecified(v) {
 			result = append(result, v)
 		}
 	}
@@ -51,14 +68,21 @@ func main() {
 	house := Product{"House", blue, large}
 
 	products := []Product{apple, tree, house}
-	f := Filter{}
+	greenSpecification := ColorSpecification{green}
+	largeSpecification := SizeSpecification{large}
+	mediumSpecification := SizeSpecification{medium}
+	greenMediumSpecification := AndSpecification{greenSpecification, mediumSpecification}
 
-	for _, v := range f.FilterByColor(products, green) {
+	for _, v := range FilterBySpecification(products, greenSpecification) {
 		fmt.Printf("Product %s is green\n", v.name)
 	}
 
-	for _, v := range f.FilterBySize(products, large) {
+	for _, v := range FilterBySpecification(products, largeSpecification) {
 		fmt.Printf("Product %s is large\n", v.name)
+	}
+
+	for _, v := range FilterBySpecification(products, greenMediumSpecification) {
+		fmt.Printf("Product %s is green and medium\n", v.name)
 	}
 
 }
