@@ -54,19 +54,10 @@ func (rs *Relationships) AddParentAndChild(parent, child *Person) {
 }
 
 type Research struct {
-	// relationships Relationships
-	browser RelationshipBrowser // low-level
+	browser RelationshipBrowser
 }
 
 func (r *Research) Investigate(name string) {
-	//relations := r.relationships.relations
-	//for _, rel := range relations {
-	//	if rel.from.name == "John" &&
-	//		rel.relationship == Parent {
-	//		fmt.Println("John has a child called", rel.to.name)
-	//	}
-	//}
-
 	for _, p := range r.browser.FindAllChildrenOf(name) {
 		fmt.Printf("%s has a child called %s\n", name, p.name)
 	}
@@ -77,11 +68,15 @@ func main() {
 	child1 := Person{"Chris"}
 	child2 := Person{"Matt"}
 
-	// low-level module
+	// low-level type
 	relationships := &Relationships{}
 	relationships.AddParentAndChild(&parent, &child1)
 	relationships.AddParentAndChild(&parent, &child2)
 
+	// high-level type
+	// Dependency Inversion Principle
+	// high-level type (Research ) should not depend on low-level type (Relationships)
+	// but should depend on abstraction (= interface in golang) (RelationShipBrowser)
 	research := Research{relationships}
 	research.Investigate("John")
 }
