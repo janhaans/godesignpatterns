@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/janhaans/godesignpatterns/furniturefactory"
+	"github.com/janhaans/godesignpatterns/abstractfactory/internal/furniturefactory"
 )
 func createFurniture(furnitureFactory furniturefactory.FurnitureAbstractFactory) {
 	chair := furnitureFactory.CreateChair()
