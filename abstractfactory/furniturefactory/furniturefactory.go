@@ -1,4 +1,4 @@
-package abstractfactory
+package furniturefactory
 
 // FurnitureAbstractFactory is an interface for creating furniture
 type FurnitureAbstractFactory interface {
